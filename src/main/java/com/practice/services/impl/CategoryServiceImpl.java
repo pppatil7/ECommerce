@@ -49,5 +49,10 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDtoList;
     }
 
-
+    @Override
+    public void deleteCategoryByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
+        categoryRepository.delete(category);
+    }
 }
