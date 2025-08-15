@@ -3,6 +3,7 @@ package com.practice.services.impl;
 import com.practice.dto.CategoryDto;
 import com.practice.dto.CreateCategoryDto;
 import com.practice.entities.Category;
+import com.practice.exceptions.ResourceNotFoundException;
 import com.practice.repositories.CategoryRepository;
 import com.practice.services.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,14 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(savedCategory, CategoryDto.class);
     }
 
+
+    @Override
+    public CategoryDto getCategoryByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
+        return modelMapper.map(category, CategoryDto.class);
+    }
+
     @Override
     public List<CategoryDto> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
@@ -39,4 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categoryDtoList;
     }
+
+
 }
