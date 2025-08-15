@@ -4,6 +4,7 @@ import com.practice.dto.CategoryDto;
 import com.practice.dto.CreateCategoryDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryService {
 
@@ -16,4 +17,6 @@ public interface CategoryService {
     List<CategoryDto> getAllCategories();
 
     void deleteCategoryByCategoryId(Long categoryId);
+
+    CategoryDto updatePartialCategoryByCategoryId(Long categoryId, Map<String, Object> updates);
 }

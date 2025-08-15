@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +63,24 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(categoryId).
                 orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public CategoryDto updatePartialCategoryByCategoryId(Long categoryId, Map<String, Object> updates) {
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
+        Object value;
+        for (String field : updates.keySet()) {
+            switch (field) {
+                case "categoryName":
+                    value = updates.get(field);
+                    category.setCategoryName((String) value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Field is not supported");
+            }
+        }
+        Category savedCategory = categoryRepository.save(category);
+        return modelMapper.map(savedCategory, CategoryDto.class);
     }
 }

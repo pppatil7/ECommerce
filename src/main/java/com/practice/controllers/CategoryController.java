@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +47,12 @@ public class CategoryController {
     public ResponseEntity<Void> deleteCategoryByCategoryId(@PathVariable Long categoryId) {
         categoryService.deleteCategoryByCategoryId(categoryId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{categoryId}")
+    public ResponseEntity<CategoryDto> updatePartialCategoryByCategoryId(@PathVariable Long categoryId, @RequestBody Map<String, Object> updates) {
+        CategoryDto categoryDto = categoryService.updatePartialCategoryByCategoryId(categoryId, updates);
+        return ResponseEntity.ok(categoryDto);
     }
 
 
