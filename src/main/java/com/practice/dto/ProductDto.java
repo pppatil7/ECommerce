@@ -18,4 +18,6 @@ public class ProductDto {
     private String productDescription;
 
     private Double productPrice;
+
+    private CategoryDto category;
 }

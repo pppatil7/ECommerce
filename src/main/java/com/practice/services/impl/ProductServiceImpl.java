@@ -27,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(categoryId).
                 orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
         Product product = modelMapper.map(dto, Product.class);
+        product.setCategory(category);
         Product savedProduct = productRepository.save(product);
         return modelMapper.map(savedProduct, ProductDto.class);
     }
