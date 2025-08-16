@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -32,5 +34,32 @@ public class ProductServiceImpl implements ProductService {
         return modelMapper.map(savedProduct, ProductDto.class);
     }
 
-
+    @Override
+    public ProductDto updatePartialProductByProductId(Long categoryId, Long productId, Map<String, Object> updates) {
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
+        Product product = productRepository.findById(productId).
+                orElseThrow(() -> new ResourceNotFoundException("Product", "productId", String.valueOf(productId)));
+        Object value;
+        for (String field : updates.keySet()) {
+            switch (field) {
+                case "productTitle":
+                    value = updates.get(field);
+                    product.setProductTitle((String) value);
+                    break;
+                case "productDescription":
+                    value = updates.get(field);
+                    product.setProductDescription((String) value);
+                    break;
+                case "productPrice":
+                    value = updates.get(field);
+                    product.setProductPrice((Double) value);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Field is not Supported");
+            }
+        }
+        Product updatedProduct = productRepository.save(product);
+        return modelMapper.map(updatedProduct, ProductDto.class);
+    }
 }

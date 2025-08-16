@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
                     throw new IllegalArgumentException("Field is not supported");
             }
         }
-        Category savedCategory = categoryRepository.save(category);
-        return modelMapper.map(savedCategory, CategoryDto.class);
+        Category updatedCategory = categoryRepository.save(category);
+        return modelMapper.map(updatedCategory, CategoryDto.class);
     }
 }
