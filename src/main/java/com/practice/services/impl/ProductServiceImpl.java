@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProduct() {
+    public List<ProductDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
         List<ProductDto> productDtoList = new ArrayList<>();
         ProductDto productDto;
@@ -53,6 +53,20 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findByProductTitle(productTitle).
                 orElseThrow(() -> new ResourceNotFoundException("Product", "productTitle", productTitle));
         return modelMapper.map(product, ProductDto.class);
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCategoryId(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        List<Product> products = productRepository.findByCategory(category).
+                orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", String.valueOf(categoryId)));
+        List<ProductDto> productDtoList = new ArrayList<>();
+        ProductDto productDto;
+        for (Product product : products) {
+            productDto = modelMapper.map(product, ProductDto.class);
+            productDtoList.add(productDto);
+        }
+        return productDtoList;
     }
 
     @Override

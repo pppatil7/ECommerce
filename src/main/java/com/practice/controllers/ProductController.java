@@ -26,8 +26,8 @@ public class ProductController {
     }
 
     @GetMapping("categories/products")
-    public ResponseEntity<List<ProductDto>> getAllProduct() {
-        List<ProductDto> productDtoList = productService.getAllProduct();
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<ProductDto> productDtoList = productService.getAllProducts();
         return ResponseEntity.ok(productDtoList);
     }
 
@@ -35,6 +35,12 @@ public class ProductController {
     public ResponseEntity<ProductDto> getProductByProductTitle(@PathVariable String productTitle) {
         ProductDto productDto = productService.getProductByProductTitle(productTitle);
         return ResponseEntity.ok(productDto);
+    }
+
+    @GetMapping("categories/{categoryId}/products")
+    public ResponseEntity<List<ProductDto>> getProductsByCategoryId(@PathVariable Long categoryId) {
+        List<ProductDto> productDtoList = productService.getProductsByCategoryId(categoryId);
+        return ResponseEntity.ok(productDtoList);
     }
 
     @PatchMapping("categories/{categoryId}/products/{productId}")

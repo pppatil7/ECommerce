@@ -10,9 +10,11 @@ public interface ProductService {
 
     ProductDto createProduct(Long categoryId, CreateProductDto dto);
 
-    List<ProductDto> getAllProduct();
+    List<ProductDto> getAllProducts();
 
     ProductDto getProductByProductTitle(String productTitle);
+
+    List<ProductDto> getProductsByCategoryId(Long categoryId);
 
     ProductDto updatePartialProductByProductId(Long categoryId, Long productId, Map<String, Object> updates);
 
