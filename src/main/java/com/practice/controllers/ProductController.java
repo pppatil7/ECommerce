@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,6 +22,18 @@ public class ProductController {
     @PostMapping("categories/{categoryId}/products")
     public ResponseEntity<ProductDto> createProduct(@PathVariable Long categoryId, @RequestBody CreateProductDto dto) {
         ProductDto productDto = productService.createProduct(categoryId, dto);
+        return ResponseEntity.ok(productDto);
+    }
+
+    @GetMapping("categories/products")
+    public ResponseEntity<List<ProductDto>> getAllProduct() {
+        List<ProductDto> productDtoList = productService.getAllProduct();
+        return ResponseEntity.ok(productDtoList);
+    }
+
+    @GetMapping("categories/products/{productTitle}")
+    public ResponseEntity<ProductDto> getProductByProductTitle(@PathVariable String productTitle) {
+        ProductDto productDto = productService.getProductByProductTitle(productTitle);
         return ResponseEntity.ok(productDto);
     }
 

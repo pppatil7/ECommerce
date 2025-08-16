@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,6 +34,25 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         Product savedProduct = productRepository.save(product);
         return modelMapper.map(savedProduct, ProductDto.class);
+    }
+
+    @Override
+    public List<ProductDto> getAllProduct() {
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> productDtoList = new ArrayList<>();
+        ProductDto productDto;
+        for (Product product : products) {
+            productDto = modelMapper.map(product, ProductDto.class);
+            productDtoList.add(productDto);
+        }
+        return productDtoList;
+    }
+
+    @Override
+    public ProductDto getProductByProductTitle(String productTitle) {
+        Product product = productRepository.findByProductTitle(productTitle).
+                orElseThrow(() -> new ResourceNotFoundException("Product", "productTitle", productTitle));
+        return modelMapper.map(product, ProductDto.class);
     }
 
     @Override
