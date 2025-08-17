@@ -1,6 +1,5 @@
-package com.practice.entities;
+package com.practice.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,21 +7,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Order {
+public class OrderDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductDto product;
 
     private LocalDateTime orderDate;
 
@@ -31,5 +24,4 @@ public class Order {
     private Integer orderItemQuantity;
 
     private Double orderTotalAmount;
-
 }
