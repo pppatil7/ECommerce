@@ -5,6 +5,6 @@ import com.practice.dto.OrderDto;
 
 public interface OrderService {
 
-    OrderDto createNewOrder(CreateOrderDto dto, Long productId);
+    OrderDto createNewOrder(CreateOrderDto dto, Long userId, Long productId);
 
 }

@@ -24,4 +24,6 @@ public class OrderDto {
     private Integer orderItemQuantity;
 
     private Double orderTotalAmount;
+
+    private UserDto user;
 }

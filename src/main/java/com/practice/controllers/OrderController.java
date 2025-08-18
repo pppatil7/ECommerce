@@ -15,9 +15,9 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("users/products/{productId}/orders")
-    public ResponseEntity<OrderDto> createNewOrder(@RequestBody CreateOrderDto dto, @PathVariable Long productId) {
-        OrderDto orderDto = orderService.createNewOrder(dto, productId);
+    @PostMapping("users/{userId}/products/{productId}/orders")
+    public ResponseEntity<OrderDto> createNewOrder(@RequestBody CreateOrderDto dto, @PathVariable Long userId, @PathVariable Long productId) {
+        OrderDto orderDto = orderService.createNewOrder(dto, userId, productId);
         return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
     }
 
