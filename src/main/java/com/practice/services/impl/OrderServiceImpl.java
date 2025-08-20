@@ -10,6 +10,7 @@ import com.practice.repositories.OrderRepository;
 import com.practice.repositories.ProductRepository;
 import com.practice.repositories.UserRepository;
 import com.practice.services.OrderService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,24 @@ public class OrderServiceImpl implements OrderService {
             orderDtoList.add(orderDto);
         }
         return orderDtoList;
+    }
+
+    @Transactional
+    @Override
+    public OrderDto cancelOrder(Long userId, Long orderId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", "orderId", String.valueOf(orderId)));
+
+        if (order.getOrderStatus().equals("CANCELLED")) {
+            throw new IllegalStateException("Order CANCELLED Already So cannot Cancel now");
+        }
+        if (order.getOrderStatus().equals("COMPLETED")) {
+            throw new IllegalStateException("COMPLETED Order cannot be CANCELLED");
+        }
+
+        order.setOrderStatus("CANCELLED");
+        return modelMapper.map(order, OrderDto.class);
     }
 }

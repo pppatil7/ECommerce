@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> resourceNotFoundException(ResourceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> IllegalStateException(IllegalStateException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }
