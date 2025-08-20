@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         Double orderTotalAmount = order.getOrderItemQuantity() * product.getProductPrice();
         order.setOrderTotalAmount(orderTotalAmount);
         order.setUser(user);
+        user.getOrders().add(order); //bidirectional consistency
         order.setProduct(product);
         Order savedOrder = orderRepository.save(order);
         return modelMapper.map(savedOrder, OrderDto.class);
