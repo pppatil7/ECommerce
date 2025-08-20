@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/")
@@ -19,6 +21,12 @@ public class OrderController {
     public ResponseEntity<OrderDto> createNewOrder(@RequestBody CreateOrderDto dto, @PathVariable Long userId, @PathVariable Long productId) {
         OrderDto orderDto = orderService.createNewOrder(dto, userId, productId);
         return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("users/{userId}/orders")
+    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable Long userId) {
+        List<OrderDto> orderDtoList = orderService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orderDtoList);
     }
 
 

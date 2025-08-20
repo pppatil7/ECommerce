@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,20 @@ public class OrderServiceImpl implements OrderService {
         order.setProduct(product);
         Order savedOrder = orderRepository.save(order);
         return modelMapper.map(savedOrder, OrderDto.class);
+    }
+
+
+    @Override
+    public List<OrderDto> getOrdersByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "userId", String.valueOf(userId)));
+        List<Order> orders = orderRepository.findByUserUserId(userId);
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        OrderDto orderDto;
+        for (Order order : orders) {
+            orderDto = modelMapper.map(order, OrderDto.class);
+            orderDtoList.add(orderDto);
+        }
+        return orderDtoList;
     }
 }
