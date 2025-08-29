@@ -82,4 +82,20 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus("CANCELLED");
         return modelMapper.map(order, OrderDto.class);
     }
+
+    @Override
+    public List<OrderDto> getOrdersByProductId(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow();
+        List<Order> orders = orderRepository.findByProductProductId(productId).orElseThrow();
+        OrderDto orderDto;
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (Order order : orders) {
+            orderDto = modelMapper.map(order, OrderDto.class);
+            orderDtoList.add(orderDto);
+        }
+        return orderDtoList;
+    }
+
+
+
 }

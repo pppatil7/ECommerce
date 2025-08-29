@@ -13,4 +13,6 @@ public interface OrderService {
 
     OrderDto cancelOrder(Long userId, Long orderId);
 
+    List<OrderDto> getOrdersByProductId(Long productId);
+
 }

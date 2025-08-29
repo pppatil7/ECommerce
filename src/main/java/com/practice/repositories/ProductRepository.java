@@ -1,6 +1,7 @@
 package com.practice.repositories;
 
 import com.practice.entities.Category;
+import com.practice.entities.Order;
 import com.practice.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,11 +1,14 @@
 package com.practice.services.impl;
 
 import com.practice.dto.CreateProductDto;
+import com.practice.dto.OrderDto;
 import com.practice.dto.ProductDto;
 import com.practice.entities.Category;
+import com.practice.entities.Order;
 import com.practice.entities.Product;
 import com.practice.exceptions.ResourceNotFoundException;
 import com.practice.repositories.CategoryRepository;
+import com.practice.repositories.OrderRepository;
 import com.practice.repositories.ProductRepository;
 import com.practice.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     private final ModelMapper modelMapper;
+    private final OrderRepository orderRepository;
 
     @Override
     public ProductDto createProduct(Long categoryId, CreateProductDto dto) {
@@ -97,4 +101,5 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = productRepository.save(product);
         return modelMapper.map(updatedProduct, ProductDto.class);
     }
+
 }
